@@ -1783,7 +1783,8 @@ namespace DriveWatch
                     foreach (KeyValuePair<string, Drive> kv in old.Drives ?? new Dictionary<string, Drive>())
                     {
                         Drive cur;
-                        if (!store.Drives.TryGetValue(kv.Key, out cur)) continue;
+                        // a drive this copy has not seen yet (a first run) is adopted as it is; the next scan updates it
+                        if (!store.Drives.TryGetValue(kv.Key, out cur)) { store.Drives[kv.Key] = kv.Value; if (!string.IsNullOrEmpty(kv.Value.Nickname)) names++; continue; }
                         if (string.IsNullOrEmpty(cur.Nickname) && !string.IsNullOrEmpty(kv.Value.Nickname)) { cur.Nickname = kv.Value.Nickname; names++; }
                         if (string.IsNullOrEmpty(cur.Note) && !string.IsNullOrEmpty(kv.Value.Note)) cur.Note = kv.Value.Note;
                         if (string.CompareOrdinal(kv.Value.FirstSeen ?? "9", cur.FirstSeen ?? "9") < 0) cur.FirstSeen = kv.Value.FirstSeen;
