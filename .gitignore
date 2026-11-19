@@ -1,0 +1,8 @@
+# build output (release builds are attached to GitHub Releases instead)
+dist/
+app.ico
+*.tmp
+
+# a person's own history and logs never belong in the project
+history*.json
+error.log
